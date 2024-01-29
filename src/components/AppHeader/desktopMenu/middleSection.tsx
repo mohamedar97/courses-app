@@ -8,19 +8,17 @@ interface MiddleSectionProps {
 }
 const MiddleSection: React.FC<MiddleSectionProps> = ({ pages }) => {
   return (
-    <Grid item>
-      <Box sx={{ display: { xs: "none", md: "flex" } }}>
-        {pages.map((page) => (
-          <Button
-            key={page}
-            // onClick={handleCloseNavMenu}
-            sx={{ color: "white", display: "block" }}
-          >
-            {page}
-          </Button>
-        ))}
-      </Box>
-    </Grid>
+    <Box sx={{ display: { xs: "none", md: "flex" } }}>
+      {pages.map((page) => (
+        <Button
+          key={page}
+          // onClick={handleCloseNavMenu}
+          sx={{ color: "white", display: "block" }}
+        >
+          {page}
+        </Button>
+      ))}
+    </Box>
   );
 };
 

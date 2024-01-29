@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import AppTheme from "@/utils/AppTheme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +20,9 @@ export default function LocaleLayout({
 }) {
   return (
     <html dir={locale === "en" ? "ltr" : "rtl"} lang={locale}>
-      <body className={inter.className}>{children}</body>
+      <ThemeProvider theme={AppTheme}>
+        <body className={inter.className}>{children}</body>
+      </ThemeProvider>
     </html>
   );
 }

@@ -1,8 +1,3 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import React from "react";
-import UserAvatar from "../userAvatar";
 import Grid from "@mui/material/Grid";
 import LeftSection from "./leftSection";
 import MiddleSection from "./middleSection";
@@ -22,9 +17,15 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({ pages }) => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <LeftSection />
-        <MiddleSection pages={pages} />
-        <RightSection />
+        <Grid item>
+          <LeftSection />
+        </Grid>
+        <Grid item>
+          <MiddleSection pages={pages} />
+        </Grid>
+        <Grid item>
+          <RightSection />
+        </Grid>
       </Grid>
     </>
   );
