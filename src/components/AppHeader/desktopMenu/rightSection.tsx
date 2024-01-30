@@ -14,38 +14,38 @@ const RightSection = () => {
   ) : (
     <>
       <Grid item>
-        <Button
-          sx={{
-            color: "white",
+        <Link
+          href={{
+            pathname: `/en/authentication`,
+            query: {
+              type: "login",
+            },
           }}
-          disableElevation
-          variant="text"
         >
-          <Link
-            href={{
-              pathname: `/en/authentication`,
-              query: {
-                type: "login",
-              },
+          <Button
+            sx={{
+              color: "white",
             }}
+            disableElevation
+            variant="text"
           >
             Login
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </Grid>
       <Grid item>
-        <Button color="secondary" disableElevation variant="contained">
-          <Link
-            href={{
-              pathname: `/en/authentication`,
-              query: {
-                type: "signup",
-              },
-            }}
-          >
+        <Link
+          href={{
+            pathname: `/en/authentication`,
+            query: {
+              type: "signup",
+            },
+          }}
+        >
+          <Button color="secondary" disableElevation variant="contained">
             Sign Up
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </Grid>
     </>
   );

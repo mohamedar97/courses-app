@@ -1,23 +1,22 @@
 "use client";
 import { useState } from "react";
-import {
-  Alert,
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateField } from "@mui/x-date-pickers/DateField";
 import { Dayjs } from "dayjs";
 import { useAuthContext } from "@/contexts/authContext";
 import validateForm from "./formValidation";
 import authenticate from "./authenticate";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { UserState } from "./interfaces";
+import AuthenticationFormContent from "./authenticationFormContent";
+
+const initialUserState: UserState = {
+  fullName: "",
+  mobileNumber: "",
+  date: null,
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const AuthenticationForm: React.FC = () => {
   const { setUsername } = useAuthContext();
@@ -26,12 +25,14 @@ const AuthenticationForm: React.FC = () => {
   const isSignUp = type === "signup";
   const router = useRouter();
 
-  const [fullName, setFullName] = useState<string | undefined>();
-  const [mobileNumber, setMobileNumber] = useState<string | undefined>();
-  const [date, setDate] = useState<Dayjs | undefined | null>();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string | undefined>();
+  const [userState, setUserState] = useState<UserState>(initialUserState);
+
+  const handleChange = (
+    field: keyof UserState,
+    value: string | Dayjs | null
+  ) => {
+    setUserState((prevUserState) => ({ ...prevUserState, [field]: value }));
+  };
 
   const [error, setError] = useState<string | null>(null);
 
@@ -39,12 +40,12 @@ const AuthenticationForm: React.FC = () => {
     e.preventDefault();
 
     const formErrors = validateForm({
-      fullName,
-      mobileNumber,
-      dob: date!,
-      email,
-      password,
-      confirmPassword,
+      fullName: userState.fullName,
+      mobileNumber: userState.mobileNumber,
+      dob: userState.date,
+      email: userState.email,
+      password: userState.password,
+      confirmPassword: userState.confirmPassword,
       isSignUp,
     });
 
@@ -55,15 +56,17 @@ const AuthenticationForm: React.FC = () => {
     if (isSignUp) {
     }
     const dob = isSignUp
-      ? `${date!.date()}-${date!.month() + 1}-${date!.year()}`
+      ? `${userState.date!.date()}-${
+          userState.date!.month() + 1
+        }-${userState.date!.year()}`
       : "";
 
     const AuthenticationResult = await authenticate({
-      fullName,
-      mobileNumber,
-      dob,
-      email,
-      password,
+      fullName: userState.fullName,
+      mobileNumber: userState.mobileNumber,
+      dob: dob,
+      email: userState.email,
+      password: userState.password,
       isSignUp,
     });
 
@@ -77,144 +80,14 @@ const AuthenticationForm: React.FC = () => {
 
   return (
     <>
-      <Container
-        component="main"
-        maxWidth="xs"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: "8vh", // Adjust as needed
-        }}
-      >
-        {error && (
-          <Alert
-            sx={{
-              width: "100%",
-            }}
-            variant="outlined"
-            severity="error"
-            onClose={() => {
-              setError(null);
-            }}
-          >
-            {error}
-          </Alert>
-        )}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            {isSignUp ? "Sign Up" : "Login"}
-          </Typography>
-          <Box
-            onSubmit={handleSubmit}
-            component={"form"}
-            sx={{
-              width: "100%",
-              marginTop: "1em",
-            }}
-          >
-            {isSignUp && (
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="name"
-                label="Full Name"
-                name="name"
-                autoComplete="name"
-                autoFocus
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-            )}
-            {isSignUp && (
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DateField"]}>
-                  <DateField
-                    format="DD-MM-YYYY"
-                    fullWidth
-                    label="Date of Birth"
-                    value={date}
-                    onChange={(date) => setDate(date)}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            )}
-
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {isSignUp && (
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="mobile"
-                label="Mobile Number"
-                name="mobile"
-                autoComplete="mobile"
-                value={mobileNumber}
-                onChange={(e) => setMobileNumber(e.target.value)}
-              />
-            )}
-
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {isSignUp && (
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                name="confirm-password"
-                label="Confirm Password"
-                type="password"
-                id="confirm-password"
-                autoComplete="current-confirm-password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            )}
-
-            {/* Add more form fields as needed */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-              sx={{
-                mt: 1,
-              }}
-            >
-              {isSignUp ? "Sign Up" : "Login"}
-            </Button>
-          </Box>
-        </Box>
-      </Container>
+      <AuthenticationFormContent
+        isSignUp={isSignUp}
+        userState={userState}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        error={error}
+        setError={setError}
+      />
     </>
   );
 };
