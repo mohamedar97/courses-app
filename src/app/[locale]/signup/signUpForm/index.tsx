@@ -47,14 +47,19 @@ const SignUpForm: React.FC = () => {
     }
     const dob = `${date!.date()}-${date!.month() + 1}-${date!.year()}`;
 
-    // const user = await signUp({
-    //   fullName,
-    //   mobileNumber,
-    //   dob,
-    //   email,
-    //   password,
-    // });
-    // setUsername(user!.email);
+    const registrationResult = await signUp({
+      fullName,
+      mobileNumber,
+      dob,
+      email,
+      password,
+    });
+
+    if (typeof registrationResult === "string") {
+      setError("Please try again");
+      return;
+    }
+    setUsername(registrationResult);
   };
 
   return (
@@ -164,7 +169,7 @@ const SignUpForm: React.FC = () => {
               fullWidth
               name="confirm-password"
               label="Confirm Password"
-              type="confirm-password"
+              type="password"
               id="confirm-password"
               autoComplete="current-confirm-password"
               value={confirmPassword}

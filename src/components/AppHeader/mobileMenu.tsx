@@ -94,7 +94,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ pages }) => {
         </Grid>
         <Grid item>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <UserAvatar />
+            <UserAvatar username="a" />
           </Box>
         </Grid>
       </Grid>

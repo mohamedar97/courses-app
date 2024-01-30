@@ -8,7 +8,10 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-const UserAvatar = () => {
+interface UserAvatarProps {
+  username: string;
+}
+const UserAvatar: React.FC<UserAvatarProps> = ({ username }) => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -24,7 +27,9 @@ const UserAvatar = () => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Avatar sx={{ bgcolor: "secondary.main" }} alt={username}>
+            {username.toUpperCase()}
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu

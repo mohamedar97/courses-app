@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import AppTheme from "@/utils/AppTheme";
+import { AuthProvider } from "@/contexts/authContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default function LocaleLayout({
   return (
     <html dir={locale === "en" ? "ltr" : "rtl"} lang={locale}>
       <ThemeProvider theme={AppTheme}>
-        <body className={inter.className}>{children}</body>
+        <AuthProvider>
+          <body className={inter.className}>{children}</body>
+        </AuthProvider>
       </ThemeProvider>
     </html>
   );

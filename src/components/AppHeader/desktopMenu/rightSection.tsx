@@ -1,18 +1,15 @@
 import Grid from "@mui/material/Grid";
 import React from "react";
 import UserAvatar from "@/components/AppHeader/userAvatar";
-import { getAuth } from "firebase/auth";
-import firebaseApp from "@/firebase";
 import Button from "@mui/material/Button";
 import Link from "next/link";
-
-const auth = getAuth(firebaseApp);
-const user = auth.currentUser;
+import { useAuthContext } from "@/contexts/authContext";
 
 const RightSection = () => {
+  const { user } = useAuthContext();
   const elements = user ? (
     <Grid item>
-      <UserAvatar />
+      <UserAvatar username={user.fullName} />
     </Grid>
   ) : (
     <>
@@ -24,12 +21,12 @@ const RightSection = () => {
           disableElevation
           variant="text"
         >
-          <Link href="/login">Login </Link>
+          <Link href="en/login">Login </Link>
         </Button>
       </Grid>
       <Grid item>
         <Button color="secondary" disableElevation variant="contained">
-          <Link href="/signup">Sign Up</Link>
+          <Link href="en/signup">Sign Up</Link>
         </Button>
       </Grid>
     </>
