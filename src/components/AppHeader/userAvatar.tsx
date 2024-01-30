@@ -28,7 +28,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ username }) => {
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar sx={{ bgcolor: "secondary.main" }} alt={username}>
-            {username.toUpperCase()}
+            {username.toUpperCase()[0]}
           </Avatar>
         </IconButton>
       </Tooltip>

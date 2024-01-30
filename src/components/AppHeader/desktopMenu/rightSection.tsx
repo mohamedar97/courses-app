@@ -9,7 +9,7 @@ const RightSection = () => {
   const { user } = useAuthContext();
   const elements = user ? (
     <Grid item>
-      <UserAvatar username={user.fullName} />
+      <UserAvatar username={user.email} />
     </Grid>
   ) : (
     <>
@@ -21,12 +21,30 @@ const RightSection = () => {
           disableElevation
           variant="text"
         >
-          <Link href="en/login">Login </Link>
+          <Link
+            href={{
+              pathname: `/en/authentication`,
+              query: {
+                type: "login",
+              },
+            }}
+          >
+            Login
+          </Link>
         </Button>
       </Grid>
       <Grid item>
         <Button color="secondary" disableElevation variant="contained">
-          <Link href="en/signup">Sign Up</Link>
+          <Link
+            href={{
+              pathname: `/en/authentication`,
+              query: {
+                type: "signup",
+              },
+            }}
+          >
+            Sign Up
+          </Link>
         </Button>
       </Grid>
     </>

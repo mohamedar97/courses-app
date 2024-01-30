@@ -1,12 +1,12 @@
 import AppHeader from "@/components/AppHeader";
 import React from "react";
-import SignUpForm from "./signUpForm";
+import AuthenticationForm from "./authenticationForm";
 
 const signUpPage = () => {
   return (
     <>
       <AppHeader />
-      <SignUpForm />
+      <AuthenticationForm />
     </>
   );
 };
