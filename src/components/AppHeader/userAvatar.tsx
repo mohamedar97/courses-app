@@ -7,12 +7,32 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import logout from "@/utils/auth/logout";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/contexts/authContext";
+import Link from "next/link";
 
 interface UserAvatarProps {
   username: string;
 }
 const UserAvatar: React.FC<UserAvatarProps> = ({ username }) => {
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const router = useRouter();
+  const { setUsername } = useAuthContext();
+
+  const settings = [
+    {
+      name: "Account",
+      href: "/",
+    },
+    {
+      name: "My Courses",
+      href: "/",
+    },
+    {
+      name: "Logout",
+      href: "#",
+    },
+  ];
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -21,6 +41,17 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ username }) => {
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = async () => {
+    const logoutResult = await logout();
+    if (typeof logoutResult === "string") {
+      console.log(logoutResult);
+      return;
+    }
+    router.push("/");
+    setUsername(null);
+    handleCloseUserMenu();
   };
 
   return (
@@ -49,8 +80,15 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ username }) => {
         onClose={handleCloseUserMenu}
       >
         {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{setting}</Typography>
+          <MenuItem
+            key={setting.name}
+            onClick={
+              setting.name === "Logout" ? handleLogout : handleCloseUserMenu
+            }
+          >
+            <Link href={setting.href}>
+              <Typography textAlign="center">{setting.name}</Typography>
+            </Link>
           </MenuItem>
         ))}
       </Menu>

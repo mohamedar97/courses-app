@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Dayjs } from "dayjs";
 import { useAuthContext } from "@/contexts/authContext";
 import validateForm from "./formValidation";
-import authenticate from "./authenticate";
+import authenticate from "@/utils/auth/authenticate";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { UserState } from "./interfaces";
@@ -72,6 +72,7 @@ const AuthenticationForm: React.FC = () => {
 
     if (typeof AuthenticationResult === "string") {
       setError("Please try again");
+      console.log(AuthenticationResult);
       return;
     }
     setUsername(AuthenticationResult);

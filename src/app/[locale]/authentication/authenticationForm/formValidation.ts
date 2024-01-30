@@ -37,9 +37,9 @@ const validateForm = ({
     if (!fullName || !mobileNumber || !dob || !confirmPassword) {
       return "All fields are required";
     }
-    const mobileNumberRegex = /^\d{10}$/;
+    const mobileNumberRegex = /^\d{11}$/;
     if (!mobileNumberRegex.test(mobileNumber)) {
-      return "Invalid mobile number format. It should be 10 digits.";
+      return "Invalid mobile number format. It should be 11 digits.";
     }
 
     if (password !== confirmPassword) {

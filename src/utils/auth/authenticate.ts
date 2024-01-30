@@ -36,7 +36,6 @@ const authenticate = async ({
       );
 
       await setDoc(doc(db, "users", userCredential.user.uid), {
-        uid: userCredential.user.uid,
         fullName,
         email,
         mobileNumber,
